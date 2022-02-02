@@ -8,7 +8,7 @@ import Sql
 #from json import jsonify
 
 app = Flask(__name__)
-CORS(app, resources={r"/.*": {"origins": ["http://127.0.0.1","https://127.0.0.1","http://127.0.0.1:3000"]}})
+CORS(app, resources={r"/.*": {"origins": ["http://trueequal.one","https://trueequal.one","http://127.0.0.1:3000","http://localhost:3000"]}})
 @app.route("/")
 # 使用pymysql指令來連接數據庫
 def hello():
