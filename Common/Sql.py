@@ -3,7 +3,7 @@ import pymysql
 connection = pymysql.connect(
     host="127.0.0.1",
     user="wish",
-    password="xxxxx",
+    password="XXXXX",
     db="dtw",
     charset="utf8mb4",
     cursorclass=pymysql.cursors.DictCursor,
@@ -22,6 +22,7 @@ class sql:
                 cursor.execute(sqlStr)
                 # 只取出一條結果
                 result = cursor.fetchone()
+                connection.commit()
                 return result
         except:
             return "except"
