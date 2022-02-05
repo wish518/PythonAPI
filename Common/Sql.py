@@ -10,7 +10,7 @@ connection = pymysql.connect(
 )
 class sql: 
     # 使用pymysql指令來連接數據庫
-    def GetDataRow(self, sqlStr):
+    def GetDataRow(self, sqlStr,parms):
         try:
             # 從數據庫鏈接中得到cursor的數據結構
             with connection.cursor() as cursor:
@@ -19,7 +19,7 @@ class sql:
                 # sql="INSERT INTO `USERS`(`email`,`password`) VALUES (%s,%s)"
                 # cursor.execute(sql,("webmaster@python.org’,’very_secret"))
                 # 執行到這一行指令時才是真正改變了數據庫，之前只是緩存在內存中
-                cursor.execute(sqlStr)
+                cursor.execute(sqlStr,parms)
                 # 只取出一條結果
                 result = cursor.fetchone()
                 connection.commit()

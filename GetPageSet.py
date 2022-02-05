@@ -20,7 +20,7 @@ def test():
 def GetPageSet():
     m_sql=Sql.sql()
     Note = request.json.get("Note")
-    result = m_sql.GetDataRow("SELECT * FROM PageSet WHERE Page= '%s' " % (Note))
+    result = m_sql.GetDataRow("SELECT * FROM PageSet WHERE Page= %s" ,(Note))
     return "" if result == None else result
     
     app.run()
