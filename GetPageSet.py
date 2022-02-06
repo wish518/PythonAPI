@@ -15,6 +15,12 @@ def test():
     m_sql=Sql.sql()
     return 'Hollo peter'
 
+@app.route("/Debug")
+# 使用pymysql指令來連接數據庫
+def Debug():
+    m_sql=Sql.sql()
+    return m_sql.GetDataRow("SELECT * FROM PageSet WHERE Page= 'test' " ,'')
+
 @app.route("/GetPageSet",methods=['POST'])
 # 使用pymysql指令來連接數據庫
 def GetPageSet():

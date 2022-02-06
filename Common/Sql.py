@@ -19,10 +19,14 @@ class sql:
                 # sql="INSERT INTO `USERS`(`email`,`password`) VALUES (%s,%s)"
                 # cursor.execute(sql,("webmaster@python.org’,’very_secret"))
                 # 執行到這一行指令時才是真正改變了數據庫，之前只是緩存在內存中
-                cursor.execute(sqlStr,parms)
+                if(parms==''):
+                   cursor.execute(sqlStr)
+                else:
+                   cursor.execute(sqlStr,parms)
+
                 # 只取出一條結果
                 result = cursor.fetchone()
                 connection.commit()
                 return result
-        except:
-            return "except"
+        except Exception as e:
+            return e.args[0]
