@@ -28,5 +28,11 @@ def GetPageSet():
     Note = request.json.get("Note")
     result = m_sql.GetDataRow("SELECT * FROM PageSet WHERE Page= %s" ,(Note))
     return "" if result == None else result
+
+@app.route("/GetMenuIndex",methods=['POST'])
+# 使用pymysql指令來連接數據庫
+def GetMenuIndex():
+    m_sql=Sql.sql()
+    return m_sql.GetDataRow("SELECT * FROM MenuIndex " ,'')
     
-    app.run()
+app.run()
