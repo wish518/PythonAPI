@@ -2,11 +2,11 @@
 from flask_cors import CORS
 from flask import Flask,jsonify,request
 import sys
+import json
 sys.path.append('./Common')
 #sys.path.append('/var/www/html/PythonAPI/Common')
 import Sql
 #from json import jsonify
-
 app = Flask(__name__)
 CORS(app, resources={r"/.*": {"origins": ["http://trueequal.one","https://trueequal.one","http://127.0.0.1:3000","http://localhost:3000"]}})
 @app.route("/")
@@ -33,6 +33,6 @@ def GetPageSet():
 # 使用pymysql指令來連接數據庫
 def GetMenuIndex():
     m_sql=Sql.sql()
-    return m_sql.GetDataRow("SELECT * FROM MenuIndex " ,'')
-    
-app.run()
+    result =  m_sql.GetDataTable("SELECT * FROM MenuIndex " ,'')
+    return json.dumps(result,  default=str)
+  
