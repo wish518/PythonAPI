@@ -1,0 +1,5 @@
+host="127.0.0.1"
+user="wish"
+password="XXXXX"
+db="dtw"
+charset="utf8mb4"

@@ -27,12 +27,12 @@ def GetPageSet():
     m_sql=Sql.sql()
     Note = request.json.get("Note")
     result = m_sql.GetDataRow("SELECT * FROM PageSet WHERE Page= %s" ,(Note))
-    return "" if result == None else result
+    return json.dumps([]) if result == None else json.dumps(result,  default=str)
 
 @app.route("/GetMenuIndex",methods=['POST'])
 # 使用pymysql指令來連接數據庫
 def GetMenuIndex():
     m_sql=Sql.sql()
-    result =  m_sql.GetDataTable("SELECT * FROM MenuIndex " ,'')
+    result =  m_sql.GetDataTable("SELECT * FROM MenuIndex ORDER BY Sort" ,'')
     return json.dumps(result,  default=str)
   
