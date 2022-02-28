@@ -14,6 +14,6 @@ class Email:
            server.login(SettingData.GmailAcc,SettingData.GmailPassWord)
            server.send_message(EmailSetting)
            server.close()
-           return True
+           return {"Code":"000"}
         except Exception as e:
-           return False
+           return {"Code":"800","Msg":e.args[0]}
