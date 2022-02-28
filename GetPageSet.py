@@ -4,8 +4,9 @@ from flask import Flask,jsonify,request
 import sys
 import json
 sys.path.append('./Common')
-#sys.path.append('/var/www/html/PythonAPI/Common')
+import SettingData
 import Sql
+import Email
 #from json import jsonify
 app = Flask(__name__)
 CORS(app, resources={r"/.*": {"origins": ["http://trueequal.one","https://trueequal.one","http://127.0.0.1:3000","http://localhost:3000"]}})
@@ -35,4 +36,38 @@ def GetMenuIndex():
     m_sql=Sql.sql()
     result =  m_sql.GetDataTable("SELECT * FROM MenuIndex ORDER BY Sort" ,'')
     return json.dumps(result,  default=str)
+
+@app.route("/SetMessage",methods=['POST'])
+# 使用pymysql指令來連接數據庫
+def SetMessage():
+    Func = request.json.get("Func")
+    Message = request.json.get("Message")
+    result =SettingData.result
+    try:
+        if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+           ClientIP = request.environ['REMOTE_ADDR']
+        else:
+           ClientIP = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
+    
+        m_sql=Sql.sql()
+        result = m_sql.GetDataRow("CALL Ins_Message(%s,'Guest','N',%s,%s)" ,(Func,Message,ClientIP))
+
+        m_Email=Email.Email()
+        if(not m_Email.SendGmail("wishwise518@gmail.com" ,"TrueEuqal1留言通知","<h3>" +Func + " 有新留言</h3> Guest 說:<div style='white-space: break-spaces;'>" + Message+"</div>")):
+           return json.dumps({"Code":"800"},  default=str)
+        
+        
+    except Exception as e:
+        return json.dumps({"Code":"999"},  default=str)
+        
+    return json.dumps(result,  default=str)
+
+@app.route("/GetMessage",methods=['POST'])
+# 使用pymysql指令來連接數據庫
+def GetMessage():
+    Func = request.json.get("Func")
+    m_sql=Sql.sql()
+    result =  m_sql.GetDataTable("SELECT * FROM Message WHERE Func = %s ORDER BY Sort" ,(Func))
+    return json.dumps(result,  default=str)
+
   

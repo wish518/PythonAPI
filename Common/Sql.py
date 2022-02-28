@@ -1,16 +1,16 @@
 import pymysql
 import threading
-import SqlSettingData
+import SettingData
 from dbutils.pooled_db import PooledDB
 # connection = pymysql.connect(
-#     host=SqlSettingData.host,
-#     user=SqlSettingData.user,
-#     password=SqlSettingData.password,
-#     db=SqlSettingData.db,
-#     charset=SqlSettingData.charset,
+#     host=SettingData.host,
+#     user=SettingData.user,
+#     password=SettingData.password,
+#     db=SettingData.db,
+#     charset=SettingData.charset,
 #     cursorclass=pymysql.cursors.DictCursor,
 # )
-pool = PooledDB(creator=pymysql, mincached=1, maxcached=20, host=SqlSettingData.host,  user=SqlSettingData.user, password= SqlSettingData.password, db=SqlSettingData.db,  charset=SqlSettingData.charset,)
+pool = PooledDB(creator=pymysql, mincached=1, maxcached=20, host=SettingData.host,  user=SettingData.user, password= SettingData.password, db=SettingData.db,  charset=SettingData.charset,)
 lock = threading.Lock()
 class sql: 
     # 使用pymysql指令來連接數據庫
@@ -33,6 +33,8 @@ class sql:
                 # 只取出一條結果
                 result = cursor.fetchone()
                 # 關閉 SQL 連線
+                # 執行到這一行指令時才是真正改變了數據庫，之前只是緩存在內存中
+                conn.commit()
                 conn.close()
                 lock.release()
                 return result
