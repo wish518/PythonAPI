@@ -5,7 +5,7 @@ class Email:
     def SendGmail(self,To,Subject,body):
         try:
            EmailSetting=email.message.EmailMessage()
-           EmailSetting["Form"]='Service@TrueEqual.one'
+           EmailSetting["From"]='Service@TrueEqual.one'
            EmailSetting["To"]=To
            EmailSetting["Subject"]=Subject
            EmailSetting.add_alternative(body,subtype="html") #HTML信件內容
