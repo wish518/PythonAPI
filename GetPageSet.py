@@ -53,7 +53,8 @@ def SetMessage():
         result = m_sql.GetDataRow("CALL Ins_Message(%s,'Guest','N',%s,%s)" ,(Func,Message,ClientIP))
 
         m_Email=Email.Email()
-        return m_Email.SendGmail("wishwise518@gmail.com" ,"TrueEuqal1留言通知","<h3>" +Func + " 有新留言</h3> Guest 說:<div style='white-space: break-spaces;'>" + Message+"</div>")
+        result = m_Email.SendGmail("wishwise518@gmail.com" ,"TrueEuqal1留言通知","<h3>" +Func + " 有新留言</h3> Guest 說:<div style='white-space: break-spaces;'>" + Message+"</div> END")
+        return json.dumps(result,  default=str)
         
     except Exception as e:
         return json.dumps({"Code":"999"},  default=str)
